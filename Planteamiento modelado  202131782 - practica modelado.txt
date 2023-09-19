@@ -1,0 +1,148 @@
+
+*Incidencias
+*Devoluciones
+*EnviosGeneradosDesdeBodeasCentrales
+
+Jorge Anibal Bravo Rodríguez - 202131782
+
+* Producto ---------
+- Codigo
+- Nombre del producto
+- Costo 
+- Precio
+- Existencias
+- Multiplos 
+- Habilitado (boolean)
+- idProveedores
+
+    * Proveedores
+    - idProveedores 
+    - idProveedor
+
+* Proveedor
+- idProveedor
+- Telefono
+- Direccion
+- Habilitado (boolean)
+
+* Existencias dañadas
+- idExistenciaDañada
+- CostoDaño
+- idProducto
+- Cantidad 
+
+
+* Existencias_tienda(inventario por tienda)
+- idExistencia
+- CodigoProducto (ref Codigo tab Producto)
+- idTienda (ref id tab Tienda)
+- Cantidad
+- Habilitado (boolean)
+
+* Pedidos (Generados de tiendas hacia bodegas centrales)
+- id 
+- idTienda
+- direccion (ref Direccion tab Tienda)
+- IdProductoAPedir 
+- Fecha
+- Estado (Rechazado,pendiente de aprobacion, aprobado)
+- MotivoRechazo
+
+    * Producto a pedir
+    - id
+    - IdProducto
+    - Cantidad
+
+* Tienda
+- Id
+- Nombre
+- Direccion
+- Tipo
+
+    *TiendaNormal (Pedido directamente a bodegas centrales)
+    *TiendaSupervisada (Pedido a supervisor, se puede rechazar)
+    - AprobadoPorSupervisor (boolean)
+    - PuedePedir (boolean, true = no tiene un pedido rechazado)
+
+
+
+* Usuario
+- id
+- Nombre
+- Correo
+- Tipo (usBodega, supervisorTienda, Admin)
+- Habilitado(boolean)
+
+    * Usuario_Bodega_Central
+    - idUsuario (ref id tab Usuario)
+    - idTiendaAsignada (ref idTiendaAsig)
+
+        * TiendaAsignada
+        - idTiendaAsignada 
+        - idUsuario_Bodega_Central (refidUsuario tab Usuario_Bod)
+        - idTiendaAsignada (ref id tab tienda)
+
+* ModificacionUsuario
+- idUsuarioEjecutor
+- idUsuarioModificado
+- DescripcionModificacion
+- Fecha/hora        
+
+
+* Envio
+- idEnvio
+- idUsuario
+- idPedido (ref id tab pedido)
+- idTienda (ref idTienda tab pedido)
+- direccion (ref direccion tab pedido)
+- id paquete_de_productos (ref idPaqProd tab Paq Prod)
+- fechaEntregado
+- Estado (pendienteRecibir, completado, recibido, devuelto)
+- incidencia (ref idIncidencia tab Incidencia)
+
+    * Paquete de productos
+    - idPaquete de productos
+    - idProducto
+    - cantidad
+
+    * Incidencia
+    - IdIncidencia
+    - idEnvio
+    - idTienda
+    - Fecha
+    - Estado (Activa, aceptada, rechazada)
+    - MotivoIncidencia (ref idMotivo tab motivoIncidencia)
+    - DetalleIncidencia
+    - idDetalleProductos (ref idDetProd tab DetProd)
+    - MotivoRechazo
+
+        * MotivoIncidencia  (equivocado, dañado, no solicitado, faltante, sobrante, se pueden agregar más)
+        - idMotivo
+        - Motivo
+
+        * DetalleProductos
+        - idDetatalleProductos
+        - idProducto (ref codigo tab producto)
+        - cantidad afectada
+        
+    * Devolucion
+    - IdDevolucion
+    - idIncidencia
+    - DetalleDevolucion
+    - Estado
+
+
+* Notificacion
+- idNotificacion
+- CuerpoNotificacion
+- idPersonasANotificar
+
+    *PersonasANotificar
+    - idPersonasANotificar
+    - idNotificacion
+    - idUsuario
+
+*Parametro (limiteProductosSolicitar, limiteTotalPedido, limiteTiempoDevolucionEnvio)
+- Codigo
+- Nombre
+- Valor
